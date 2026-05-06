@@ -1,74 +1,104 @@
-# React + TypeScript + Vite
+# لوحة التوأم الرقمي - ThingSpeak
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+مشروع React + TypeScript مبني بـ Vite لعرض Dashboard IoT (ملوحة، مد، حالة، كربون) مع:
+- وضع تجريبي تلقائي بدون إعدادات.
+- وضع مباشر من ThingSpeak عند إضافة متغيرات البيئة.
+- جسر Python اختياري لاستقبال بيانات Arduino عبر Serial وإرسالها إلى ThingSpeak.
 
-Currently, two official plugins are available:
+## المتطلبات
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20+ (يفضل LTS)
+- npm
+- (اختياري للجسر) Python 3.10+
 
-## React Compiler
+## تشغيل المشروع محليًا
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+ثم افتح الرابط الذي يظهر في الطرفية (عادة `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## أوامر مفيدة
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run lint
+npm run build
+npm run preview
 ```
-# half
+
+## إعداد الاتصال بـ ThingSpeak (اختياري)
+
+إذا لم تضبط أي متغيرات، ستعمل اللوحة ببيانات وهمية.
+
+1) انسخ ملف البيئة:
+
+```bash
+cp .env.example .env
+```
+
+2) عدل القيم داخل `.env`:
+
+- `VITE_THINGSPEAK_CHANNEL_ID`: معرف القناة
+- `VITE_THINGSPEAK_READ_API_KEY`: فقط إذا القناة خاصة
+- `VITE_THINGSPEAK_POLL_MS`: زمن التحديث الدوري بالمللي ثانية
+- `VITE_THINGSPEAK_STALE_MS`: متى تعتبر البيانات قديمة
+- `VITE_THINGSPEAK_RESULTS`: عدد نقاط القراءة في الرسم (1-8000)
+
+> ملاحظة: التطبيق يقرأ البيانات فقط. لا تضع مفتاح الكتابة في React.
+
+## تشغيل جسر Arduino -> ThingSpeak (اختياري)
+
+الملفات داخل `bridge/`.
+
+1) تثبيت المتطلبات:
+
+```bash
+pip install -r bridge/requirements.txt
+```
+
+2) ضبط متغيرات البيئة:
+
+```bash
+export THINGSPEAK_WRITE_KEY="YOUR_WRITE_KEY"
+export SERIAL_PORT="/dev/ttyUSB0"
+export SERIAL_BAUD="9600"
+```
+
+على Windows (PowerShell):
+
+```powershell
+$env:THINGSPEAK_WRITE_KEY="YOUR_WRITE_KEY"
+$env:SERIAL_PORT="COM3"
+$env:SERIAL_BAUD="9600"
+```
+
+3) تشغيل الجسر:
+
+```bash
+python bridge/serial_to_thingspeak.py
+```
+
+## صيغة السطر المطلوب من الأردوينو
+
+الجسر يتوقع سطرًا بالشكل:
+
+```text
+field1,field2,field3,field4
+```
+
+مثال:
+
+```text
+1.25,52.3,1,140
+```
+
+## تعيين الحقول
+
+تعيين الحقول موجود في `src/config/channelFields.ts`:
+- `field1`: Salinity
+- `field2`: Tide
+- `field3`: Status
+- `field4`: Carbon
+
