@@ -1,0 +1,461 @@
+.digital-twin {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  text-align: start;
+}
+
+.digital-twin__hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.digital-twin__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.digital-twin__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-h);
+}
+
+.digital-twin__lede {
+  margin: 0;
+  max-width: 42rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.digital-twin__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-refresh {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-h);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.btn-refresh:hover:not(:disabled) {
+  border-color: var(--chart-line);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.btn-refresh:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.link-channel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--chart-line);
+  text-decoration: none;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.link-channel:hover {
+  text-decoration: underline;
+}
+
+.badge--meta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.digital-twin__time {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-h);
+}
+
+.badge--mock {
+  border-color: rgba(234, 179, 8, 0.45);
+  background: rgba(234, 179, 8, 0.12);
+}
+
+.badge--live {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.badge--loading {
+  opacity: 0.85;
+}
+
+.badge--channel {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+.badge--error {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--zone-danger);
+  max-width: 16rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bento-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-areas:
+    'guide guide guide guide'
+    'tide tide tide tide'
+    'salinity salinity status carbon'
+    'raw raw raw raw';
+}
+
+.bento-grid__guide {
+  grid-area: guide;
+}
+
+.bento-grid__tide {
+  grid-area: tide;
+}
+
+.bento-grid__raw {
+  grid-area: raw;
+}
+
+.bento-grid__salinity {
+  grid-area: salinity;
+}
+
+.bento-grid__status {
+  grid-area: status;
+}
+
+.bento-grid__carbon {
+  grid-area: carbon;
+}
+
+@media (max-width: 900px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'guide guide'
+      'tide tide'
+      'salinity salinity'
+      'status carbon'
+      'raw raw';
+  }
+}
+
+@media (max-width: 560px) {
+  .digital-twin {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'guide'
+      'tide'
+      'salinity'
+      'status'
+      'carbon'
+      'raw';
+  }
+}
+
+.setup-guide {
+  border-radius: 0.65rem;
+  background: rgba(148, 163, 184, 0.08);
+  padding: 0.35rem 0.75rem;
+}
+
+.setup-guide__summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-h);
+  padding: 0.35rem 0;
+}
+
+.setup-guide__list {
+  margin: 0.5rem 0 0.35rem;
+  padding-inline-start: 1.25rem;
+  line-height: 1.55;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.setup-guide__list li {
+  margin-bottom: 0.45rem;
+}
+
+.setup-guide__code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+  background: var(--code-bg, rgba(148, 163, 184, 0.15));
+  word-break: break-all;
+}
+
+.raw-fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .raw-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 400px) {
+  .raw-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.raw-fields__row {
+  margin: 0;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.raw-fields__key {
+  margin: 0 0 0.2rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.raw-fields__val {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-h);
+  word-break: break-all;
+}
+
+.bento-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem 1.15rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.bento-card__header {
+  margin-bottom: 0.65rem;
+}
+
+.bento-card__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.bento-card__subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.bento-card__body {
+  flex: 1;
+  min-height: 0;
+}
+
+.salinity-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.salinity-gauge__svg {
+  width: min(100%, 220px);
+  height: auto;
+}
+
+.salinity-gauge__readout {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  margin-top: -0.25rem;
+}
+
+.salinity-gauge__value {
+  font-family: var(--mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.salinity-gauge__unit {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.salinity-gauge__legend {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  justify-content: center;
+}
+
+.salinity-gauge__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot--safe {
+  background: var(--zone-safe);
+}
+
+.dot--warn {
+  background: var(--zone-warn);
+}
+
+.dot--danger {
+  background: var(--zone-danger);
+}
+
+.tide-chart {
+  width: 100%;
+  min-height: 260px;
+}
+
+.chart-empty {
+  margin: 0;
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.status-lamp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 140px;
+}
+
+.status-lamp__bulb {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -12px 24px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.18);
+  transition:
+    background 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.status-lamp__bulb.is-on {
+  background: radial-gradient(
+    circle at 35% 30%,
+    #bbf7d0,
+    var(--zone-safe) 55%,
+    #14532d
+  );
+}
+
+.status-lamp__bulb.is-alert {
+  background: radial-gradient(
+    circle at 35% 30%,
+    #fecaca,
+    var(--zone-danger) 55%,
+    #7f1d1d
+  );
+}
+
+.status-lamp__label {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-h);
+  text-align: center;
+}
+
+.carbon-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  gap: 0.35rem;
+}
+
+.carbon-counter__value {
+  font-family: var(--mono);
+  font-size: clamp(2.25rem, 6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-h);
+  line-height: 1;
+}
+
+.carbon-counter__unit {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
